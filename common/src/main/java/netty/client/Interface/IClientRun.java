@@ -3,7 +3,12 @@ package netty.client.Interface;
 import java.util.List;
 
 public interface IClientRun {
-    void connect(String host, int port);
+    /**
+     * 客户端连接netty服务
+     * @param host
+     * @param port
+     */
+    void connectNetty(String host, int port);
 
     /**
      * 连接zookeeper服务

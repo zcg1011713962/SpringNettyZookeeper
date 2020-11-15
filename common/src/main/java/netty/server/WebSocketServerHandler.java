@@ -14,6 +14,9 @@ public class WebSocketServerHandler<T extends Packet> extends ChannelInboundHand
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         this.connection = new Connection(ctx.channel());
+        // 未登录成功用户默认此标识
+        connection.setIdentifer(ctx.channel().toString());
+        connection.setLinkTime(System.currentTimeMillis());
         this.connected(this.connection);
     }
 

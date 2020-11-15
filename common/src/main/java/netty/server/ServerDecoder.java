@@ -16,16 +16,16 @@ public class ServerDecoder extends ChannelInboundHandlerAdapter {
             try {
                 in = ((BinaryWebSocketFrame)msg).content();
                 if (in.readableBytes() < 5) {
-                    throw new PacketFormatException();
+                    throw new PacketFormatException("长度不足5");
                 }
                 // 一字节--填充
                 if (in.readByte() != 124) {
-                    throw new PacketFormatException();
+                    throw new PacketFormatException("长度不足124");
                 }
                 // 两字节--包长
                 short length = in.readShort();
                 if (length < 0 || length > 20480) {
-                    throw new PacketFormatException();
+                    throw new PacketFormatException("包长大于20480或者小于0");
                 }
                 // 两字节--指令
                 short cmd = in.readShort();

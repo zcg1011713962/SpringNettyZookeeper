@@ -1,7 +1,5 @@
 package netty.server.Interface;
 
-import java.security.PrivateKey;
-
 public interface IServerRun {
     /**
      * 读取配置
@@ -9,15 +7,15 @@ public interface IServerRun {
     void getSystemEnv();
 
     /**
-     * 运行
+     * 连接netty服务
      */
-    void run(int port);
+    void connectNetty(int port);
 
     /**
-     * 连接zookeeper服务
+     * 注册netty服务
      * @param nodeName 节点名称
      * @param host 存储数据
      */
-    void connectZookeeper(String nodeName, String host, int port);
+    void registerServer(String nodeName, String host, int port);
 
 }

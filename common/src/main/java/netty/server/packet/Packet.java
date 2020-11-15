@@ -18,12 +18,12 @@ public class Packet {
         }
     }
 
-    public short getCmd() {
-        return this.cmd;
+    public byte[] getBytes() {
+        return bytes;
     }
 
-    public byte[] getBytes() {
-        return this.bytes;
+    public short getCmd() {
+        return cmd;
     }
 
     public Connection getConnection() {

@@ -21,7 +21,7 @@ public class WebSocketClientlInitializer extends ChannelInitializer<SocketChanne
         ChannelPipeline p = socketChannel.pipeline();
         p.addFirst(new SslHandler(sslEngine));
         p.addLast(new HttpClientCodec());
-        p.addLast( new HttpObjectAggregator(8192));
+        p.addLast(new HttpObjectAggregator(8192));
         p.addLast(WebSocketClientCompressionHandler.INSTANCE);
         p.addLast("hookedHandler",new WebSocketClientHandler());
     }

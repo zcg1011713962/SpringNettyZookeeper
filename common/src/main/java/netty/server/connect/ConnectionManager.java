@@ -42,6 +42,7 @@ public final class ConnectionManager{
         if (connection.getIdentifer() == null) {
             throw new RuntimeException("连接标识为空");
         } else {
+            LogUtil.info("有连接建立,标识{}",connection.getIdentifer());
             // 如果存在该连接返回该连接 否则存储该连接
             Connection connOld = (Connection)connectionManagerInstance.connConcurrentMap.putIfAbsent(connection.getIdentifer(), connection);
             // 旧连接未断开
@@ -74,6 +75,7 @@ public final class ConnectionManager{
     public static void disConnect(Connection connection) throws Exception {
         // 内存清理连接
         if (connection.getIdentifer() != null) {
+            LogUtil.info("有连接断开,标识{}",connection.getIdentifer());
             Connection currConn = (Connection)connectionManagerInstance.connConcurrentMap.get(connection.getIdentifer());
             if (connection == currConn) {
                 remove(connection.getIdentifer());

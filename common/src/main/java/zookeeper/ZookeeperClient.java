@@ -91,7 +91,7 @@ public class ZookeeperClient {
             String data= getData(path+ "/" + str);
             if(!StringUtils.isBlank(data)){
                 datas.add(data);
-                LogUtil.info("节点:{}活跃--服务器：{}", str, data);
+                LogUtil.info("节点:{}获取活跃--服务器：{}", str, data);
             }
         }
         return datas;

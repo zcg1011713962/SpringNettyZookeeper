@@ -1,9 +1,7 @@
 package netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
@@ -11,16 +9,9 @@ import io.netty.handler.logging.LoggingHandler;
 import utils.LogUtil;
 
 public class WebSocketServer {
-    private int port;
-    public WebSocketServer(int port){
-        this.port = port;
-    }
+    private Channel channel;
 
-    public WebSocketServer() {
-
-    }
-
-    public void run(Class<? extends ChannelHandler> handlerClazz){
+    public void run(Class<? extends ChannelHandler> handlerClazz, int port){
         int threadCount = Runtime.getRuntime().availableProcessors() / 2;
         LogUtil.info("netty server EventLoopGroup",threadCount);
 
@@ -35,7 +26,8 @@ public class WebSocketServer {
                 .option(ChannelOption.SO_BACKLOG, 256)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
         try {
-            b.bind(port).sync();
+            ChannelFuture channelFuture = b.bind(port).sync();
+            this.channel = channelFuture.channel();
         } catch (InterruptedException e) {
            LogUtil.error("--------绑定端口", e);
         }

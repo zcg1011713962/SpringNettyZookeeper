@@ -1,5 +1,6 @@
 package netty.server;
 
+import netty.client.WebSocketClientHandler;
 import netty.server.Interface.IServerRun;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.CreateMode;
@@ -10,14 +11,13 @@ import zookeeper.ZookeeperClient;
 
 import java.util.Map;
 import java.util.Properties;
-import java.util.StringJoiner;
 
 
-public class CommonServerBootstarp implements IServerRun {
+public class CommonServerBootstarp extends WebSocketServer implements IServerRun {
     private int port;
     public CommonServerBootstarp() {
-        System.setProperty("javax.net.debug", "all");
-        this.getSystemEnv();
+        //System.setProperty("javax.net.debug", "all");
+        //this.getSystemEnv();
     }
 
     @Override
@@ -38,17 +38,21 @@ public class CommonServerBootstarp implements IServerRun {
     }
 
     @Override
-    public void run(int port) {
-        LogUtil.info("--------启动server{}", port);
-        WebSocketServer webSocketServer = new WebSocketServer(port);
-        webSocketServer.run(WebSocketServerHandler.class);
+    public void connectNetty(int port) {
+        super.run(WebSocketServerHandler.class, port);
     }
 
-    @Override
-    public void connectZookeeper(String nodeName, String host, int port) {
-        // 启动服务
-        this.run(port);
-        // 注册服务
+    /**
+     * 启动netty服务
+     * 注册netty服务
+     * @param nodeName 节点
+     * @param host 主机
+     * @param port 端口
+     */
+    public void connect(String nodeName, String host, int port) {
+        // 启动netty服务
+        this.connectNetty(port);
+        // 注册netty服务
         this.registerServer(nodeName, host, port);
     }
 
@@ -59,7 +63,7 @@ public class CommonServerBootstarp implements IServerRun {
      * @param host
      * @param port
      */
-    private void registerServer(String nodeName, String host, int port){
+    public void registerServer(String nodeName, String host, int port){
         String address = host + ":" +port;
         try {
             ZookeeperClient zookeeperClient = new ZookeeperClient(CommUtil.getZookeeperServerList(),5000,5000);

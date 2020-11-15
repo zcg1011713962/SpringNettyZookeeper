@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 包异常
  */
-public class PacketFormatException extends Exception {
+public class PacketFormatException extends NullPointerException {
     public PacketFormatException(){
 
     }
