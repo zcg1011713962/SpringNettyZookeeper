@@ -36,3 +36,8 @@
                 
  3、启动镜像 docker-compose up -d 
  
+二、server使用curator注册netty服务
+        ZookeeperClient zookeeperClient = new ZookeeperClient(CommUtil.getZookeeperServerList(),5000,5000);
+三、client使用curator拉取netty服务
+        ZookeeperClient zookeeperClient = new ZookeeperClient(CommUtil.getZookeeperServerList(),5000,5000);
+        list = zookeeperClient.getNode(nodeName);
