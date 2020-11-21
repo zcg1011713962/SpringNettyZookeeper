@@ -20,7 +20,7 @@ public class ServerDecoder extends ChannelInboundHandlerAdapter {
                 }
                 // 一字节--填充
                 if (in.readByte() != 124) {
-                    throw new PacketFormatException("长度不足124");
+                    throw new PacketFormatException("非约定格式");
                 }
                 // 两字节--包长
                 short length = in.readShort();

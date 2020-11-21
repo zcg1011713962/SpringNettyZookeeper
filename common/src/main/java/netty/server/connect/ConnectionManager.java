@@ -14,9 +14,14 @@ import java.util.concurrent.ConcurrentMap;
  * 管理所有连接
  */
 public final class ConnectionManager{
-    private ConcurrentMap<Object, Connection> connConcurrentMap = new ConcurrentHashMap();
+    public ConcurrentMap<Object, Connection> connConcurrentMap = new ConcurrentHashMap();
     private static ConnectionManager connectionManagerInstance = new ConnectionManager();
     private ConnectionManager(){}
+
+    public static ConnectionManager getConnectionManager(){
+        return connectionManagerInstance;
+    }
+
 
     /**
      * 发送消息
@@ -103,7 +108,7 @@ public final class ConnectionManager{
         if(!StringUtils.isBlank(identifer)){
             return connectionManagerInstance.connConcurrentMap.get(identifer);
         }
-        return null;
+       throw new NullPointerException();
     }
 
     /**

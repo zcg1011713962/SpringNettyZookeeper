@@ -1,10 +1,17 @@
 package netty.client;
 
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
 import netty.server.connect.Connection;
+import netty.server.handler.DispatcherHandler;
+import netty.server.packet.Packet;
+import utils.LogUtil;
+import utils.PacketUtil;
 
 public class WebSocketClientHandler extends SimpleChannelInboundHandler {
     //握手的状态信息
@@ -40,12 +47,15 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler {
                 TextWebSocketFrame textFrame = (TextWebSocketFrame)frame;
             } else if (frame instanceof BinaryWebSocketFrame) {
                 BinaryWebSocketFrame binFrame = (BinaryWebSocketFrame)frame;
+                // 拆包
+                Packet packet= PacketUtil.unpack(binFrame.content());
+                // 分发给handler
+                DispatcherHandler.getHandler(packet.getCmd()).exec(packet);
             } else if (frame instanceof PongWebSocketFrame) {
-
+                LogUtil.info("pong");
             } else if (frame instanceof CloseWebSocketFrame) {
                 ch.close();
             }
-
         }
 
     }

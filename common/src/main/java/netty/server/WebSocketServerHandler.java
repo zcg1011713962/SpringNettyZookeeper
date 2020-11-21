@@ -5,7 +5,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import netty.server.connect.Connection;
 import netty.server.connect.ConnectionManager;
 import netty.server.connect.IConnListener;
+import netty.server.handler.DispatcherHandler;
 import netty.server.packet.Packet;
+import utils.LogUtil;
 
 public class WebSocketServerHandler<T extends Packet> extends ChannelInboundHandlerAdapter implements IConnListener{
     protected Connection connection;
@@ -28,9 +30,15 @@ public class WebSocketServerHandler<T extends Packet> extends ChannelInboundHand
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        Packet packet = (Packet) msg;
-        this.connection.setLinkTime(System.currentTimeMillis());
-        packet.setConnection(this.connection);
+        if(msg instanceof Packet){
+            Packet packet = (Packet) msg;
+            this.connection.setLinkTime(System.currentTimeMillis());
+            packet.setConnection(this.connection);
+            // 根据cmd 执行不同的handler
+            DispatcherHandler.getHandler(packet.getCmd()).exec(packet);
+        }else{
+            LogUtil.info("-------------------------收到非包消息");
+        }
     }
 
     @Override

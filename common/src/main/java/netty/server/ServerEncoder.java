@@ -15,7 +15,7 @@ public class ServerEncoder extends ChannelOutboundHandlerAdapter {
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         if (msg instanceof Packet) {
             Packet packet = (Packet)msg;
-            ByteBuf buf = Unpooled.buffer(6 + packet.getBytes().length);
+            ByteBuf buf = Unpooled.buffer(5 + packet.getBytes().length);
             // 填充数据
             buf.writeByte(124);
             // 包长
