@@ -1,6 +1,7 @@
 一、zookeeper集群搭建(docker-compose方式)
   1、拉取镜像 zookeeper:3.5.6
   2、创建docker-compose.yml 内容如下：
+	
     version: '3'
     services:
         zoo1:
