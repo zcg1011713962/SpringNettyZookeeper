@@ -1,0 +1,6 @@
+syntax = "proto3";
+option java_package = "rpc.protobuf";
+option java_outer_classname = "LoginResponseModel";
+message LoginResponse{
+    string code = 1;
+}
