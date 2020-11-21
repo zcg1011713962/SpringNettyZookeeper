@@ -1,6 +1,9 @@
+**项目依赖zookeeper集群环境**
+`请在CommUtil.getZookeeperServerList();设置zookeeper集群`
+
 一、zookeeper集群搭建(docker-compose方式)
-  1、拉取镜像 zookeeper:3.5.6
-  2、创建docker-compose.yml 内容如下：
+  _1、拉取镜像 zookeeper:3.5.6_
+  _2、创建docker-compose.yml 内容如下：_
 	
     version: '3'
     services:
@@ -34,7 +37,7 @@
                 ZOO_MY_ID: 3
                 ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
                 
- 3、启动镜像 docker-compose up -d 
+ _3、启动镜像 docker-compose up -d_ 
  
 二、server使用curator注册netty服务
 
